@@ -1,4 +1,4 @@
-// ** This A API Simulation With Faker.js To Make Small Crud Opreation Interactive With With Front end 
+// ** This A API Simulation With Faker.js To Make Small Crud Opreation Interactive 
 1 - // ** TO START YOU HAVE TO RUN THIS COMMEND  (run npm dev)                                          
 // ** Endpoints                                                                                         
 // ** GET ALL (PRODUCTS)                                                                                
