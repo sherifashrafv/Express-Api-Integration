@@ -1,15 +1,17 @@
-import { Product } from "../../interfaces";
+import { ProductServce } from "../services/productServices";
 
 class ProductController {
-  // PRPOPERTIES
-  products: Product[];
+  // Define productService as a class property
+  private productService: ProductServce;
 
-  constructor(products: Product[]) {
-    this.products = products;
+  // Assign productService in the constructor
+  constructor(productService: ProductServce) {
+    this.productService = productService; // Assign the passed instance to the class property
   }
-  //  ** Methods
+
+  // Methods
   getProducts() {
-    return this.products;
+    return this.productService.findAll();
   }
 }
 

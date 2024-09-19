@@ -2,6 +2,7 @@ import express, { Request, Response } from "express";
 import { generateFakeProducts } from "./utils/fakeData";
 import { Product } from "../interfaces/index";
 import ProductController from "./controllers/productController";
+import { ProductServce } from "./services/productServices";
 
 const app = express();
 const PORT: number = 8000;
@@ -16,7 +17,11 @@ app.get("/", (req, res) => {
 
 // START MVC Application
 const FAKE_DUMMY_PRODUCTS = generateFakeProducts();
-const productController = new ProductController(FAKE_DUMMY_PRODUCTS);
+
+const productService = new ProductServce();
+
+const productController = new ProductController(productService);
+
 // ** FAKE DUMMY-DATA (PRODUCTS)
 // ** Endpoints GET (PRODUCTS)
 app.get("/products", (req: Request, res: Response) => {
