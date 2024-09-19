@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import { generateFakeProducts } from "./utils/fakeData";
 import { Product } from "../interfaces/index";
+import ProductController from "./controllers/productController";
 
 const app = express();
 const PORT: number = 8000;
@@ -13,31 +14,31 @@ app.get("/", (req, res) => {
   res.end();
 });
 
-// ** FAKE DUMMY-DATA (PRODUCTS)
+// START MVC Application
 const FAKE_DUMMY_PRODUCTS = generateFakeProducts();
-
+const productController = new ProductController(FAKE_DUMMY_PRODUCTS);
+// ** FAKE DUMMY-DATA (PRODUCTS)
 // ** Endpoints GET (PRODUCTS)
 app.get("/products", (req: Request, res: Response) => {
-  const filterQuery = req.query.filter as string;
-  let filteredProducts = FAKE_DUMMY_PRODUCTS;
-
-  // Apply filtering if filterQuery is present
-  if (filterQuery) {
-    const propertiesToFilter = filterQuery.split(",");
-    filteredProducts = FAKE_DUMMY_PRODUCTS.map((product) => {
-      const filteredProduct = { ...product };
-      Object.keys(filteredProduct).forEach((key) => {
-        if (!propertiesToFilter.includes(key)) {
-          delete filteredProduct[key as keyof Product];
-        }
-      });
-      return filteredProduct;
-    });
-    res.json(filteredProducts);
-  }
-
-  // Send filtered or unfiltered products as a response
-  res.json(FAKE_DUMMY_PRODUCTS);
+  return res.send(productController.getProducts());
+  // const filterQuery = req.query.filter as string;
+  // let filteredProducts = FAKE_DUMMY_PRODUCTS;
+  // // Apply filtering if filterQuery is present
+  // if (filterQuery) {
+  //   const propertiesToFilter = filterQuery.split(",");
+  //   filteredProducts = FAKE_DUMMY_PRODUCTS.map((product) => {
+  //     const filteredProduct = { ...product };
+  //     Object.keys(filteredProduct).forEach((key) => {
+  //       if (!propertiesToFilter.includes(key)) {
+  //         delete filteredProduct[key as keyof Product];
+  //       }
+  //     });
+  //     return filteredProduct;
+  //   });
+  //   res.json(filteredProducts);
+  // }
+  // // Send filtered or unfiltered products as a response
+  // res.json(FAKE_DUMMY_PRODUCTS);
 });
 // Single Product (PRODUCT) Route params
 app.get("/products/:id", (req: Request, res: Response) => {
@@ -99,6 +100,24 @@ app.patch("/products/:id", (req: Request, res: Response) => {
     return res.status(200).send({ message: "Product has been updated!" });
   } else {
     return res.status(404).send({ message: "Product not found!" });
+  }
+});
+
+// ** DELETE PRODUCT ENDPOINTS (PRODUCTS)
+app.delete("/products/:id", (req, res) => {
+  const productId = +req.params.id;
+
+  if (isNaN(productId)) {
+    return res.status(404).send({ message: "Product not found in database!" });
+  }
+  const productIndex: number | number = FAKE_DUMMY_PRODUCTS.findIndex(
+    (p) => p.id === productId
+  );
+  if (productIndex !== -1) {
+    FAKE_DUMMY_PRODUCTS.splice(productIndex, 1);
+    return res.status(200).send({ message: "Product has been deleted!" });
+  } else {
+    return res.status(404).send({ message: "Product Not  Found !" });
   }
 });
 app.listen(PORT, () => {
