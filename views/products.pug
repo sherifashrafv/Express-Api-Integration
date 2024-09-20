@@ -5,7 +5,6 @@ html(lang="en")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title Product Page
     body 
-    h1 Meet our awsome products
-
-
-b
+    h1= pageTitle
+    p= description
+    div= JSON.stringify(products)

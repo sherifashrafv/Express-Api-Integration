@@ -19,7 +19,7 @@ const productController = new ProductController(productService);
 
 // ** VIEWS
 app.get("/products", (req, res) => {
-  res.render("products");
+  productController.renderProductList(req, res);
 });
 app.get("/", (req, res) => {
   res.render("index");

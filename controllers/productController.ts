@@ -91,6 +91,13 @@ class ProductController {
       });
     }
   }
+  renderProductList(req: Request, res: Response) {
+    res.render("products", {
+      pageTitle: "Product List",
+      description: "this is a list of products",
+      products: this.productService.findAll(),
+    });
+  }
 }
 
 export default ProductController;
