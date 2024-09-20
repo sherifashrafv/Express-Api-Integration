@@ -7,12 +7,15 @@ import ProductService from "./services/productServices";
 const app = express();
 
 app.use(express.json());
-
+app.set("view engine", "pug");
 const fakeProductsData = generateFakeProducts();
 
 const productService = new ProductService(fakeProductsData);
 const productController = new ProductController(productService);
 
+app.get("/", (req, res) => {
+  res.render("index.pug");
+});
 app.get("/products", (req, res) => productController.getProducts(req, res));
 app.get("/products/:id", (req, res) =>
   productController.getProductById(req, res)
