@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { Product } from "../../interfaces";
+import { Product } from "../interfaces";
 
 type ProductBody = {
   title: string;

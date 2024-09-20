@@ -1,21 +1,26 @@
 import express, { Request, Response } from "express";
+import { Product } from "./interfaces";
 import { generateFakeProducts } from "./utils/fakeData";
-import { Product } from "../interfaces";
-import ProductController from "./controllers/productController";
 import ProductService from "./services/productServices";
+import ProductController from "./controllers/productController";
+import path from "path";
 
 const app = express();
 
 app.use(express.json());
+// ** SET VIEWS DIRECTORY **
 app.set("view engine", "pug");
-const fakeProductsData = generateFakeProducts();
+// STATIC FILES
+app.use(express.static(path.join(__dirname, "public")));
 
+const fakeProductsData = generateFakeProducts();
 const productService = new ProductService(fakeProductsData);
 const productController = new ProductController(productService);
 
 app.get("/", (req, res) => {
   res.render("index.pug");
 });
+
 app.get("/products", (req, res) => productController.getProducts(req, res));
 app.get("/products/:id", (req, res) =>
   productController.getProductById(req, res)
