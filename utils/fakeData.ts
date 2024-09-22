@@ -8,6 +8,7 @@ export const generateFakeProducts = (): Product[] => {
       title: faker.commerce.productName(),
       price: parseFloat(faker.commerce.price({ min: 100, max: 200 })),
       description: faker.commerce.productDescription(),
+      thumnail: faker.image.urlPicsumPhotos(),
     };
   });
 };

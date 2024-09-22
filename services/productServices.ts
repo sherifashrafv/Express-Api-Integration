@@ -5,6 +5,7 @@ type ProductBody = {
   title: string;
   price: number;
   description: string;
+  thumnail: string;
 };
 export default class ProductService {
   constructor(private products: Product[]) {

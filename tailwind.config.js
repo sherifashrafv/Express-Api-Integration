@@ -2,7 +2,12 @@
 export default {
   content: ["./public/**/*.css", "./views/**/*.pug"],
   theme: {
-    extend: {},
+    extend: {
+      container: {
+        padding: "1rem",
+        center: true,
+      },
+    },
   },
   plugins: [],
 };
