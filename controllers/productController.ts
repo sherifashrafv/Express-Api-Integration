@@ -98,6 +98,13 @@ class ProductController {
       products: this.productService.findAll(),
     });
   }
+  renderProducById(req: Request, res: Response) {
+    const productId = +req.params.id;
+
+    res.render("product", {
+      product: this.productService.getProductById(productId),
+    });
+  }
 }
 
 export default ProductController;

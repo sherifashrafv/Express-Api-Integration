@@ -21,6 +21,9 @@ const productController = new ProductController(productService);
 app.get("/products", (req, res) => {
   productController.renderProductList(req, res);
 });
+app.get("/products/:id", (req, res) => {
+  productController.renderProducById(req, res);
+});
 app.get("/", (req, res) => {
   res.render("index");
 });
