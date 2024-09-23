@@ -18,6 +18,8 @@ const fakeProductsData = generateFakeProducts();
 const productService = new ProductService(fakeProductsData);
 const productController = new ProductController(productService);
 
+// ** WE CAN MAKE THIS LITTLE BIT CLEANED **
+app.use("/api/products", ProductsRouter);
 // ** VIEWS
 app.get("/products", (req, res) => {
   productController.renderProductList(req, res);
@@ -45,9 +47,6 @@ app.get("*", (req, res) => {
 // app.delete("/api/products/:id", (req, res) =>
 //   productController.deleteProduct(req, res)
 // );
-
-// ** WE CAN MAKE THIS LITTLE BIT CLEANED **
-app.use("/api/proudcts/", ProductsRouter);
 
 const PORT: number = 5000;
 app.listen(PORT, () => {

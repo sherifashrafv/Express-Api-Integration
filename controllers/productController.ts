@@ -3,11 +3,16 @@ import { Request, Response } from "express";
 import { Product } from "../interfaces/index";
 
 class ProductController {
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService) {
+    this.getProducts = this.getProducts.bind(this);
+    this.createProduct = this.createProduct.bind(this);
+    this.getProductById = this.getProductById.bind(this);
+    this.updateProduct = this.updateProduct.bind(this);
+    this.deleteProduct = this.deleteProduct.bind(this);
+  }
 
   getProducts(req: Request, res: Response) {
     const filterQuery = req.query.filter as string;
-
     if (filterQuery) {
       res.send(this.productService.filterByQuery(filterQuery));
     }
@@ -91,6 +96,7 @@ class ProductController {
       });
     }
   }
+
   renderProductList(req: Request, res: Response) {
     res.render("products", {
       pageTitle: "Product List",
@@ -98,6 +104,7 @@ class ProductController {
       products: this.productService.findAll(),
     });
   }
+
   renderProducById(req: Request, res: Response) {
     const productId = +req.params.id;
 

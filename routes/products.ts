@@ -3,9 +3,10 @@ import { generateFakeProducts } from "../utils/fakeData";
 import ProductService from "../services/productServices";
 import ProductController from "../controllers/productController";
 
-const ProductsRouter = Router();
+const productsRouter = Router();
 
 const fakeProductsData = generateFakeProducts();
+
 const productService = new ProductService(fakeProductsData);
 const {
   getProducts,
@@ -15,10 +16,11 @@ const {
   deleteProduct,
 } = new ProductController(productService);
 
-ProductsRouter.route("/").get(getProducts).post(createProduct);
-ProductsRouter.route("/:id")
+productsRouter.route("/").get(getProducts).post(createProduct);
+productsRouter
+  .route("/:id")
   .get(getProductById)
   .patch(updateProduct)
   .delete(deleteProduct);
 
-export default ProductsRouter;
+export default productsRouter;
