@@ -12,6 +12,7 @@ import ProductsRouter from "./routes/products";
 import ProductsViewController from "./controllers/productViewController";
 import ErrorMiddleware from "./middlewares/Errors";
 import ErrorNotFoundMiddleware from "./middlewares/NotFound";
+import pool from "./model/db";
 
 const app = express();
 
@@ -32,7 +33,7 @@ app.use(
     xFrameOptions: { action: "deny" },
   })
 );
-app.use(compression);
+app.use(compression());
 app.use(morgan("dev"));
 app.use(rateLimit(limiterOptions));
 // ** END: MIDDLEWARES
@@ -52,6 +53,22 @@ app.use("/api/products", ProductsRouter);
 // ** WE CAN MAKE THIS LITTLE BIT CLEANED (FOR VIEWS) **
 app.use("/products", ProductViewsController.renderProductsList);
 app.use("/products/:id", ProductViewsController.renderProductPage);
+
+// TEST DB FOR API AND RETREIVE PRODUCTS
+app.get("/db/products", async (req, res) => {
+  // ** I/O OPERATIONS TAKE WHILE **
+  try {
+    const products = await pool.query("SELECT * FROM products");
+    res.json({
+      products: products.rows,
+      length: products.rowCount,
+    });
+  } catch (err) {
+    console.error(err);
+
+    res.status(500).send("Server error");
+  }
+});
 
 // ** VIEWS (ROUTES)
 // app.get("/products", (req, res) => {
