@@ -1,16 +1,21 @@
-import { error } from "console";
 import { NextFunction, Request, Response } from "express";
 
 export default class ErrorMiddleware {
-  constructor() {}
-  handle(err: Error, res: Response, req: Request, next: NextFunction) {
-    if (req.originalUrl) {
+  static handle(err: Error, req: Request, res: Response, next: NextFunction) {
+    if (req.originalUrl.startsWith("/api")) {
       res.status(500).json({
         error: "Internal Server Error",
         message: err.message,
-        url: req.originalUrl,
+        stack: process.env.NODE_ENV === "development" ? err.stack : null,
       });
+      // to make proccess.env must install dotenv
     }
+
+    res.status(500).render("error", {
+      pageTitle: "Oops! Something went wrong",
+      message: "Something went wrong. Please try again later.",
+      error: err.message,
+    });
     next();
   }
 }
