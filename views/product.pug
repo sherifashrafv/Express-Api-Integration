@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        link(rel="stylesheet" href="/styles/dist.css")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        title Product Page
+    body 
+    include components/_navbar
+    .container
+        .grid-container
+            .item-container
+            a(href=`/products/${product.id}`)   
+                h2.item-heading= product.title
+            p.item-description= product.description
+            p.item-price
+                sup= product.price
+            button.item-cart-btn Add To Cart
+    include components/_footer
+
